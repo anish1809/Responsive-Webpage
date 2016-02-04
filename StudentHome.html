@@ -1,0 +1,246 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/Header.css" />
+<link rel="stylesheet" type="text/css" href="css/error.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/HeaderTemplate.js"></script>
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div id="header"></div>
+			<form method="post" action="logout">
+	<br/>
+	<input type="submit" class="btn btn-primary" value="Logout" style="margin-left:90%;"/>
+	</form>
+	<table>
+		<tr>
+			<td>
+				<ul class="nav nav-pills nav-stacked" style="width: 200px;">
+					<li role="presentation" class="active"><a href="#"
+						id="homeTab">Home</a></li>
+					<li role="presentation"><a href="#" id="designTab">Practice
+							Test</a></li>
+					<li role="presentation"><a href="#" id="reportsTab">Final
+							Test</a></li>
+				</ul>
+			</td>
+			<td>
+				<div style="margin-left: 300px;" class="content">
+					<div class="home" id="hom">
+						<h1>This is home</h1>
+					</div>
+					<div class="practice" id="practicePage" style="display: none;">
+						<form name="practiceForm" method="post" action="practice">
+							<div class="panel-body">
+								<label>Select Course</label><br /> <select id="ch_user1"
+									name="course" class="form-control" style="width: 300px;">
+									<option value="select"></option>
+								</select><br />
+							</div>
+						</form>
+					</div>
+					<div class="test" id="testPage" style="display: none;">
+						<form name="testForm" method="post" action="test">
+							<div class="panel-body">
+
+								
+							</div>
+						</form>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br/><br/><br/>
+	<div id="quest" style="margin-left:150px; display:none;">
+	<p id="showQuestions"></p><br/>
+	<input type='submit' value='Submit' id='practiceSubmit' class='btn btn-primary'/>
+	</div>
+	<br/>
+	
+	<div id="score" style="margin-left:200px;">
+	
+	</div>
+	<div id="testQuest" style="margin-left:250px; display:none;">
+	<p id="attempts"></p>
+	<p id="showQuestionsTest"></p>
+	
+		<p id="submitButton"><input type='submit' value='Submit' id='practiceSubmitTest' class='btn btn-primary'/></p>
+	</div>
+	<Script>
+	var Qlength=0;
+		$("#homeTab").click(function() {
+			$("#hom").show();
+			$("#practicePage").hide();
+			$("#testQuest").hide();
+		});
+		$("#designTab").click(
+				function() {
+					$("#hom").hide();
+					$("#practicePage").show();
+					$("#testQuest").hide();
+					$.ajax({
+						url : "studentHome",
+						type : "GET",
+						dataType : "json",
+						success : function(data) {
+							$.each(data, function(i, obj) {
+								var div_data = "<option value="+obj+">" + obj
+										+ "</option>";
+								$(div_data).appendTo('#ch_user1');
+							});
+						}
+					});
+				});
+		$("#reportsTab").click(function() {
+			$("#hom").hide();
+			$("#practicePage").hide();
+			$("#testPage").show();
+			var disp="";
+			$("#testQuest").show();
+			
+			$.ajax({
+				url : "test",
+				type : "GET",
+				dataType : "json",
+				success : function(data) {
+					var questions = data.questions;
+					Qlength = data.questions.length;
+					console.log("length"+Qlength);
+					console
+							.log("questions"
+									+ questions);
+					if(questions!="You have already reached 3 attempts"){			
+					for (var i = 0; i < data.questions.length; i++) {
+						$("#attempts").hide();
+						disp += "<p>"
+								+ data.questions[i].description
+								+ "</p>";
+						disp += "<ul><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[0].id+"'/>"
+								+ data.questions[i].options[0].description
+								+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[1].id+"'/>"
+								+ data.questions[i].options[1].description
+								+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[2].id+"'/>"
+								+ data.questions[i].options[2].description
+								+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[3].id+"'/>"
+								+ data.questions[i].options[3].description
+								+ "</li></ul>";
+					}
+					document.getElementById("showQuestionsTest").innerHTML = disp;
+					/*	$.each(data,function(i,obj)
+					            {
+					             var div_data="<option value="+obj+">"+obj+"</option>";
+					            $(div_data).appendTo('#ch_user2'); 
+					            }); */
+					}
+					else
+						{
+						$("#submitButton").hide();
+						document.getElementById("attempts").innerHTML = questions;
+						}
+				}
+			});
+			
+		});
+		$("#practiceSubmitTest").click(function() {
+			var selectedOptions ="";
+			for(var i=0; i<Qlength;i++)
+			{
+				var selected = $('input[name=options_'+i+']:checked').val();
+				console.log("selec"+selected+"_"+i);
+				selectedOptions += selected+"#";
+			}
+			console.log("selectedOptions"+selectedOptions);
+			var options = new Object();
+			options.data = selectedOptions;
+			options.type="final";
+			$.ajax({
+				url : "test",
+				type : "POST",
+				dataType : "json",
+				data :JSON.stringify(options),
+				success : function(data) {
+					console.log("data"+data);
+					$("#testQuest").hide();
+					document.getElementById("score").innerHTML = data.score;
+					}
+				});
+			});
+
+		$('select')
+				.on(
+						'change',
+						function() {
+							var disp = "";
+							$("#quest").show();
+							$
+									.ajax({
+										url : "practice",
+										type : "GET",
+										dataType : "json",
+										data : {
+											course : $("#ch_user1").val()
+										},
+										success : function(data) {
+											var questions = data.questions;
+											Qlength = data.questions.length;
+											console
+													.log("questions"
+															+ questions);
+											for (var i = 0; i < data.questions.length; i++) {
+												console
+														.log("question"
+																+ data.questions[i].description);
+												disp += "<p>"
+														+ data.questions[i].description
+														+ "</p>";
+												disp += "<ul><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[0].id+"'/>"
+														+ data.questions[i].options[0].description
+														+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[1].id+"'/>"
+														+ data.questions[i].options[1].description
+														+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[2].id+"'/>"
+														+ data.questions[i].options[2].description
+														+ "</li><li><input type='radio' name='options_"+i+"' value='"+data.questions[i].options[3].id+"'/>"
+														+ data.questions[i].options[3].description
+														+ "</li></ul>";
+											}
+											document.getElementById("showQuestions").innerHTML = disp;
+											/*	$.each(data,function(i,obj)
+											            {
+											             var div_data="<option value="+obj+">"+obj+"</option>";
+											            $(div_data).appendTo('#ch_user2'); 
+											            }); */
+										}
+									});
+						});
+		
+		$("#practiceSubmit").click(function() {
+			var selectedOptions ="";
+			for(var i=0; i<Qlength;i++)
+			{
+				var selected = $('input[name=options_'+i+']:checked').val();
+				console.log("selec"+selected+"_"+i);
+				selectedOptions +=selected+"_";
+			}
+			console.log("selectedOptions"+selectedOptions);
+			$.ajax({
+				url : "practice",
+				type : "POST",
+				dataType : "json",
+				data :{"options":selectedOptions},
+				success : function(data) {
+					console.log("data"+data);
+					$("#quest").hide();
+					document.getElementById("score").innerHTML = data.score;
+					}
+				});
+			});
+	</Script>
+</body>
+
+</html>

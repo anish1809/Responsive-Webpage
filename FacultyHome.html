@@ -1,0 +1,148 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/Header.css" />
+<link rel="stylesheet" type="text/css" href="css/error.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/HeaderTemplate.js"></script>
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div id="header"></div>
+			<form method="post" action="logout">
+	<br/>
+	<input type="submit" class="btn btn-primary" value="Logout" style="margin-left:90%;"/>
+	</form>
+	<table>
+		<tr>
+			<td>
+				<ul class="nav nav-pills nav-stacked" style="width: 200px;">
+					<li role="presentation" class="active"><a href="#" id="homeTab">Home</a></li>
+					<li role="presentation"><a href="#" id="designTab">Design</a></li>
+					<li role="presentation"><a href="#" id="reportsTab">View Reports</a></li>
+				</ul>
+			</td>
+			<td>
+				<div style="margin-left: 300px;" class="content">
+					<div class="home" id="hom">
+						<h1>This is home</h1>
+					</div>
+					<div class="design" id="designPage" style="display:none;">
+						<form name="questionForm" method="post" action="addQuestion">
+							<div class="panel-body">
+								<label>Select Course</label><br /> <select id="ch_user1" name="course"
+									class="form-control" style="width: 300px;">
+									<option value="select"></option>
+								</select><br/>
+								<label>Select outcome</label><br /> <select id="ch_user2" name="outcome"
+									class="form-control" style="width: 300px;">
+									<option value="select"></option>
+								</select><br/>
+								 <label>Question</label>
+								<textarea name="question" style="width: 300px; height: 40px;"
+									class="form-control" required></textarea>
+								<label>Option 1</label> <input type="text" name="option1"
+									style="width: 300px; height: 40px;" class="form-control"
+									placeholder="Option 1" required> <br />
+								<label>Option 2</label> <input type="text" name="option2"
+									style="width: 300px; height: 40px;" class="form-control"
+									placeholder="Option 2" required> <br />
+									<label>Option 3</label> <input type="text" name="option3"
+									style="width: 300px; height: 40px;" class="form-control"
+									placeholder="Option 3" required> <br />
+									<label>Option 4</label> <input type="text" name="option4"
+									style="width: 300px; height: 40px;" class="form-control"
+									placeholder="Option 4" required> <br />
+									<label>Correct Answer</label> <input type="text" name="correct"
+									style="width: 300px; height: 40px;" class="form-control"
+									placeholder="correct option" required> <br />
+								<br /> <input type="submit" value="Add" class="btn btn-primary">
+							</div>
+						</form>
+					</div>
+					<div class="reports" id="reportsPage" style="display:none;">
+					<table class="table table-bordered">
+						<thead>
+						<th>Name</th>
+						<th>#Questions</th>
+						<th>#Correct</th>
+						<th>#Percentage</th>
+						</thead>
+						<tbody id="reportData">
+						
+						</tbody>
+					</table>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+<Script>
+$("#homeTab").click(function() {
+	$("#hom").show();
+	$("#designPage").hide();
+	$("#reportsPage").hide();
+});
+$("#designTab").click(function() {
+	$("#hom").hide();
+	$("#designPage").show();
+	$("#reportsPage").hide();
+	$.ajax({
+        url : "addQuestion",
+        type : "GET",
+        dataType:"json",
+        success : function(data) {
+        	$.each(data,function(i,obj)
+                    {
+        			var div_data="<option value="+obj+">"+obj+"</option>";
+                    $(div_data).appendTo('#ch_user1'); 
+
+                    });  
+        }
+});
+});
+$("#reportsTab").click(function() {
+	$("#hom").hide();
+	$("#designPage").hide();
+	$("#reportsPage").show();
+	var disp="";
+	$.ajax({
+        url : "reports",
+        type : "GET",
+        dataType:"json",
+        success : function(data) {
+        	var reports = data.reports.length;
+        	for(var i=0;i<data.reports.length;i++)
+        		{
+        			disp +="<tr><td>"+data.reports[i].name+"</td><td>"+data.reports[i].total+"</td><td>"+data.reports[i].score+"</td><td>"+data.reports[i].percentage+"</td></tr>"
+        		}
+        	document.getElementById("reportData").innerHTML = disp;
+        	console.log("reports"+reports);
+        	console.log("data"+data);
+        }
+});
+});
+
+$('select').on('change', function() {
+	$.ajax({
+        url : "addQuestion",
+        type : "GET",
+        dataType:"json",
+        data:{course:$("#ch_user1").val()},
+        success : function(data) {
+        	$.each(data,function(i,obj)
+                    {
+                     var div_data="<option value="+obj+">"+obj+"</option>";
+                    $(div_data).appendTo('#ch_user2'); 
+                    });  
+        }
+});
+	})
+</Script>
+</body>
+
+</html>

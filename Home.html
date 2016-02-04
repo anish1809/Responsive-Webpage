@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+  <title>UCM-Home</title>
+    <link rel="stylesheet" type="text/css" href="css/Header.css" />
+    <link rel="stylesheet" type="text/css" href="css/error.css">
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script type="text/javascript" src="js/HeaderTemplate.js"></script>
+  <script src="js/LoginValidation.js"></script>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div class="ImageSlideshow" id ="ImageSlideshowdiv" align="center">
+     <table id="ImageSlidesTable">
+    <tr>
+    <td align="center">
+    <img class="slideshow" src="images/SlideImage1.jpg" id="slide" />
+    </td>
+    </tr>
+    </table>
+  </div>
+  <script type="text/javascript" src="js/ImageSlideshow.js"></script>
+  <script type="text/javascript" src="js/SlideCode.js"></script>
+
+  <div id="logindiv" align="center">
+  <form id="Login" method="post" action="login">
+    <table class="errormsg">
+  <colgroup>
+   <col width="30%" />
+   <col width="30%" />
+   <col width="40%" />
+   <col />
+ </colgroup>
+ <tbody>
+    <tr>
+        <th colspan="2">Log-In</th>
+    </tr>
+    <tr>
+      <td><label for="studentId">Email<span class="required">*</span></label></td>
+      <td><input type="text" id="studentId" name="studentId"></td>
+      <td id="studentIdError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="password">Password<span class="required">*</span></label></td>
+      <td><input type="password" id="password" name="password"></td>
+      <td id="passwordError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td>Designation<span class="required">*</span></td>
+      <td><select id="occupation" name="occupation" required>
+            <option value="" selected>Please select...</option>
+            <option value="Admin">Admin</option>
+            <option value="Student">Student</option>
+            <option value="Faculty">Instructor</option>
+          </select></td>
+          <td id="occupationError" class="errorMsg">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="Log In" id="btnSubmit">&nbsp;</td>
+      <td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<script>
+
+
+</script>
+
+</body>
+
+</html>

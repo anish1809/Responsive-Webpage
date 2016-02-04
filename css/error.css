@@ -1,0 +1,26 @@
+
+.errorMsg {  /* for error messages */
+   color: red;
+}
+
+.errorBox {  /* for the error input text fields */
+   border: 2px solid red;
+}
+
+#errormsg {
+ border: 0;
+ width: 1270px;
+}
+
+#signupdiv, #logindiv{
+    background-color: #817486;
+}
+
+.errormsg td {
+   margin: 0;
+   padding: 3px 10px;
+}
+
+.required {  /* Marker for required fields */
+   color: red;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UCM-SignUp</title>
+  <link rel="stylesheet" type="text/css" href="css/error.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/HeaderTemplate.js"></script>
+  <script src="js/SignupValidation.js"></script>
+</head>
+
+<body>
+<div id="header"></div>
+
+<div class="signupdiv" align="center">
+  <form id="Signup" onsubmit="validateForm();">
+    <table class="errormsg">
+    <colgroup>
+   <col width="30%" />
+   <col width="30%" />
+   <col width="40%" />
+   <col />
+ </colgroup>
+ <tbody>
+ <tr>
+ <th colspan="2">New User Registration</th>
+ </tr>
+    <tr id="ftr">
+      <td><label for="fname"> First Name<span class="required">*</span></label></td>
+      <td><input type="text" id="firstName" name="firstName"></td>
+      <td id="firstNameError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="lname"> Last Name<span class="required">*</span></label></td>
+      <td><input type="text" id="lastName" name="lastName"></td>
+      <td id="lastNameError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="studentId">700#<span class="required">*</span></label></td>
+      <td><input type="text" id="studentId" name="studentId"></td>
+      <td id="studentIdError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td>Occupation<span class="required">*</span></td>
+      <td><label><input type="radio" name="occupation" value="instructor">Instructor</label>
+          <label><input type="radio" name="occupation" value="student">Student</label></td>
+      <td id="occupationError" class="errorMsg">&nbsp;</td></tr>
+    </tr>
+    <tr>
+      <td><label for="studentAddress">Address</label></td>
+      <td><input type="text" id="studentAddress" name="studentAddress"></td>
+      <td id="studentAddressError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="city">City<span class="required">*</span></label></td>
+      <td><input type="text" id="city" name="city"></td>
+      <td id="cityError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="zipcode">Zip Code<span class="required">*</span></label></td>
+      <td><input type="text" id="zipcode" name="zipcode"></td>
+      <td id="zipcodeError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="phone">Phone<span class="required">*</span></label></td>
+      <td><input type="text" id="phone" name="phone"></td>
+      <td id="phoneError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="email">Email<span class="required">*</span></label></td>
+      <td><input type="text" id="email" name="email"></td>
+      <td id="emailError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="password">Password (6-8 characters)<span class="required">*</span></label></td>
+      <td><input type="password" id="password" name="password"></td>
+      <td id="passwordError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="pwVerified">Verify Password<span class="required">*</span></label></td>
+      <td><input type="password" id="pwVerified" name="pwVerified"></td>
+      <td id="pwVerifiedError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="Sign Up" id="btnSubmit">&nbsp;
+          <input type="reset" value="Clear" id="btnReset"></td>
+      <td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+</body>
+</html>

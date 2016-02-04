@@ -1,0 +1,9 @@
+var slideimages = new Array()
+   slideimages[0] = new Image()
+    slideimages[0].src = "images/SlideImage1.jpg"
+    slideimages[1] = new Image()
+    slideimages[1].src = "images/SlideImage2.jpg";
+    slideimages[2] = new Image()
+    slideimages[2].src = "images/SlideImage3.jpg";
+    slideimages[3] = new Image()
+    slideimages[3].src = "images/SlideImage4.jpg";

@@ -1,0 +1,46 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+  <title>UCM-Login</title>
+  <link rel="stylesheet" type="text/css" href="css/error.css">
+  <script src="js/LoginValidation.js"></script>
+</head>
+
+<body>
+<div id="logindiv" align="center">
+  <form id="Login" onsubmit="validateForm();">
+    <table class="errormsg">
+  <colgroup>
+   <col width="30%" />
+   <col width="30%" />
+   <col width="40%" />
+   <col />
+ </colgroup>
+ <tbody>
+     <tr>
+        <th colspan="2">LogIn</th>
+     </tr>
+    <tr>
+      <td><label for="email">Email<span class="required">*</span></label></td>
+      <td><input type="text" id="email" name="email"></td>
+      <td id="emailError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td><label for="password">Password (6-8 characters)<span class="required">*</span></label></td>
+      <td><input type="password" id="password" name="password"></td>
+      <td id="passwordError" class="errorMsg">&nbsp;</td></tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="Log In" id="btnSubmit">&nbsp;
+          <input type="reset" value="CLEAR" id="btnReset"></td>
+      <td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+</body>
+
+</html>

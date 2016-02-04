@@ -1,0 +1,226 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/Header.css" />
+<link rel="stylesheet" type="text/css" href="css/error.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/HeaderTemplate.js"></script>
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<style>
+#accordion-1 {
+	font-size: 14px;
+	width: 600px;
+}
+</style>
+</head>
+<body>
+	<div id="header"></div>
+	<form method="post" action="logout">
+		<br /> <input type="submit" class="btn btn-primary" value="Logout"
+			style="margin-left: 90%;" />
+	</form>
+	<table>
+		<tr>
+			<td>
+				<ul class="nav nav-pills nav-stacked" style="width: 200px;">
+					<li role="presentation" class="active"><a href="#"
+						id="homeTab">Home</a></li>
+					<li role="presentation"><a href="#" id="courseAdd">Add
+							Course</a></li>
+					<li role="presentation"><a href="#" id="instructorTab">Add
+							Instructor</a></li>
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false" href="#" id="reportsTab">View Reports</a>
+						<ul class="dropdown-menu">
+							<li><a href="#" id="outCome">Outcome wise</a></li>
+							<li><a href="#" id="univ">University wise</a></li>
+						</ul></li>
+				</ul>
+			</td>
+			<td>
+				<div style="margin-left: 300px;" class="content">
+					<div class="home" id="hom">
+						<h1>This is home page</h1>
+					</div>
+					<div class="addCourse" id="course" style="display: none">
+						<form name="courseForm" method="post" action="addCourse">
+							<div class="panel-body">
+								<label>Course Name</label> <input type="text" name="cName"
+									id="name" style="width: 300px; height: 40px;"
+									class="form-control" placeholder="Course Name" required>
+								<br /> <label>Course Number</label> <input type="text"
+									name="cNumber" style="width: 300px; height: 40px;"
+									class="form-control" placeholder="Course Number" id="number"
+									required> <br /> <label>Select Instructor</label><br />
+								<select id="instructor" name="ins" class="form-control"
+									style="width: 300px;">
+									<option value="select">--Select--</option>
+								</select> <br /> <label>Course Outcomes</label> <input type="text"
+									name="cOutcomes" style="width: 300px; height: 40px;"
+									class="form-control" id="outcomes"
+									placeholder="Course Outcomes" required> <br /> <input
+									type="submit" id="btnAddCourse" value="Add"
+									class="btn btn-primary">
+							</div>
+						</form>
+					</div>
+					<div id="response"></div>
+					<div class="addInstructor" id="instructorPage"
+						style="display: none;">
+						<form name="InstructorForm" method="post" action="addInstructor">
+							<div class="panel-body">
+								<label>First Name</label> <input type="text" name="fName"
+									id="nameF" style="width: 300px; height: 40px;"
+									class="form-control" placeholder="First Name" required>
+								<br /> <label>Last Name</label> <input type="text" id="nameL"
+									name="lName" style="width: 300px; height: 40px;"
+									class="form-control" placeholder="Last Name" required>
+								<br /> <label>Email</label><br /> <input type="text"
+									id="emailId" name="email" style="width: 300px; height: 40px;"
+									class="form-control" placeholder="Email" required><br />
+								<input type="submit" id="btnAddInstructor" value="Add"
+									class="btn btn-primary">
+							</div>
+						</form>
+					</div>
+					<div id=reportsPage style="display: none;">
+						<br /> <br />
+						<div id="accordion-1">
+							<h3 id="a">a</h3>
+							<div id=cData></div>
+							<h3 id="b">b</h3>
+							<div id=bData></div>
+							<h3 id="c">c</h3>
+							<div id=cData></div>
+							<h3 id="e">d</h3>
+							<div id=dData></div>
+							<h3 id="e">e</h3>
+							<div id=eData></div>
+							<h3 id="f">f</h3>
+							<div id=fData></div>
+							<h3 id="g">g</h3>
+							<div id=gData></div>
+						</div>
+					</div>
+					<div id="univPage" style="display: none;">
+						<table class="table table-bordered">
+							<thead>
+								<th>Name</th>
+								<th>#Percentage</th>
+							</thead>
+							<tbody id="reportData">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<script>
+		$("#courseAdd").click(
+				function() {
+					$("#course").show();
+					$("#hom").hide();
+					$("#instructorPage").hide();
+					$("#reportsPage").hide();
+					$("#univPage").hide();
+					$.ajax({
+						url : "addCourse",
+						type : "GET",
+						dataType : "json",
+						success : function(data) {
+							$.each(data, function(i, obj) {
+								var div_data = "<option value="+obj+">" + obj
+										+ "</option>";
+								$(div_data).appendTo('#instructor');
+							});
+						}
+					});
+				});
+		$("#homeTab").click(function() {
+			$("#course").hide();
+			$("#hom").show();
+			$("#instructorPage").hide();
+			$("#reportsPage").hide();
+			$("#univPage").hide();
+		});
+		$("#instructorTab").click(function() {
+			$("#course").hide();
+			$("#hom").hide();
+			$("#instructorPage").show();
+			$("#reportsPage").hide();
+			$("#univPage").hide();
+		});
+		$("#reportsTab").click(function() {
+			$("#course").hide();
+			$("#hom").hide();
+			$("#instructorPage").hide();
+			$("#univPage").hide();
+			var disp="";
+			$(function() {
+				$("#accordion-1").accordion({
+					activate: function (e) {
+		                 var id = $('.ui-accordion-header-active').attr('id');
+							$.ajax({
+								url : "adminReports",
+								type : "GET",
+								dataType : "json",
+								data:{outcome:id},
+								success : function(data) {
+									console.log("data"+data)
+									disp="";
+									disp +="<table class='table table-striped'><thead><th>University</th><th>Percentage</th></thead><tbody>"
+									for(var i=0;i<3;i++){
+									disp +="<tr><td>"+data.reports[i].name+"</td><td>"+data.reports[i].percentage+"</td></tr>"
+									}
+									disp +="</tbody></table>";
+						        	document.getElementById(id+"Data").innerHTML = disp;
+								}
+							});
+							
+		        },
+		        heightStyle: "content",
+		        collapsible:true
+				});
+			});
+		});
+		$("#outCome").click(function() {
+			$("#reportsPage").show();
+			$("#univPage").hide();
+
+		});
+		$("#univ").click(function() {
+			$("#reportsPage").hide();
+			$("#univPage").show();
+			var disp="";
+			$.ajax({
+		        url : "adminUnivReports",
+		        type : "GET",
+		        dataType:"json",
+		        success : function(data) {
+		        	var reports = data.reports.length;
+		        	for(var i=0;i<data.reports.length;i++)
+		        		{
+		        			disp +="<tr><td>"+data.reports[i].name+"</td><td>"+data.reports[i].percentage+"</td></tr>"
+		        		}
+		        	document.getElementById("reportData").innerHTML = disp;
+		        	console.log("reports"+reports);
+		        	console.log("data"+data);
+		        }
+		});
+		});
+	</script>
+</body>
+</html>
